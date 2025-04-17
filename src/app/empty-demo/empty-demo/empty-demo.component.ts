@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './empty-demo.component.scss'
 })
 export class EmptyDemoComponent {
-
+  name = "Angular"
 }
