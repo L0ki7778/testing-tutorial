@@ -15,6 +15,7 @@ describe('PlaygroundComponent', () => {
 
     fixture = TestBed.createComponent(PlaygroundComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("greeting", "Hello")
     fixture.detectChanges();
   });
 
@@ -30,9 +31,8 @@ describe('PlaygroundComponent', () => {
   it('should greet the name and the guest', () => {
     const htmlElement = fixture.nativeElement as HTMLEmbedElement
 
-
     expect(component.guest).toBe('guest');
-    expect(htmlElement.querySelector('h1')?.textContent).toBe(`Hello ${component.name}`);
+    expect(htmlElement.querySelector('h1')?.textContent).toBe(`${component.greeting()} ${component.name}`);
     expect(htmlElement.querySelector('[data-test-id="guest"]')?.textContent).toBe(`Hello guest`);
 
   })
@@ -75,6 +75,29 @@ describe('PlaygroundComponent', () => {
 
     expect(component.emitNewName).toHaveBeenCalledTimes(2)
     expect(component.changeEmitter.emit).toHaveBeenCalledWith('Larry')
+
+  })
+
+  it('should fail to emit if the input ist empy', () => {
+    component.guest = ''
+
+    fixture.detectChanges()
+
+    spyOn(component.changeEmitter, 'emit')
+    const button = fixture.debugElement.query(By.css('button'))
+    button.triggerEventHandler('click', null)
+
+    expect(component.changeEmitter.emit).not.toHaveBeenCalled()
+
+  })
+
+  it('should render the default input greeting', () => {
+    fixture.componentRef.setInput("greeting", "Here we go again Mr.")
+    fixture.detectChanges()
+
+    expect(component.greeting()).toBe('Here we go again Mr.')
+    const HTMLElement = fixture.debugElement.query(By.css('#greeting'))
+    expect(HTMLElement.nativeElement.textContent).toBe(`Here we go again Mr. ${component.name}`)
 
   })
 });
