@@ -93,3 +93,26 @@
 >   + setTimeout, setInterval
 >   + debounceTime, delay, animationFrame
 >   + kontrolliertes Fortschreiten von Zeit-basierten Prozessen
+
+
+&nbsp;
+
+&nbsp;
+
+# Component - Checklist
+
+Kategorie | Was wird getestet? | Beispieltest / Hinweis
+| ------------- | ------------- |------------- |
+🧱 Komponentenaufbau | Wird die Komponente korrekt erstellt? | expect(component).toBeTruthy()
+🧬 Properties & Defaults | Sind Initialwerte korrekt gesetzt? | expect(component.title).toBe('xyz')
+🧪 Methoden (Unit) | Wird die Methode korrekt ausgeführt? | component.doSomething(); expect(...).toBe(...)
+👀 DOM-Prüfung | Spiegelt das Template den Component-Status korrekt wider? | querySelector().textContent
+📤 @Output / Events | Wird ein Event korrekt mitgegeben? | spyOn(...emit) + toHaveBeenCalledWith(...)
+📥 @Input-Bindings | Reagiert die Komponente korrekt auf Input-Änderung? | component.inputProp = 'value'; detectChanges()
+👆 Benutzeraktionen | Wird DOM-Interaktion (z. B. Klick) korrekt verarbeitet? | triggerEventHandler('click', null)
+🔄 Datenbindung | Funktioniert Two-Way Binding ([(ngModel)], formControl)? | Wert setzen → prüfen, ob Model aktualisiert
+⏱ Asynchrone Logik | fakeAsync, tick(), flush() oder whenStable() verwendet? | Bei z. B. setTimeout, HttpClient, etc.
+🧯 Fehlerbehandlung | Was passiert bei falschen/fehlenden Daten? | z. B. "Was, wenn guest leer ist?"
+🧹 Lifecycle-Methoden | Reagiert die Komponente auf ngOnInit, ngOnDestroy etc.? | z. B. Subscriptions, Cleanup
+🕵️ SpyOn/Mocks | Methodenaufrufe verfolgt? Funktionen stubben oder durchlassen? | spyOn(component, 'foo').and.callThrough()
+♻️ Mehrere Runs | Verhalten bei mehreren Interaktionen korrekt? | mehrfach klicken, mehrfach aufrufen
