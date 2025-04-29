@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { LoggerService } from './logger.service';
 import { CalculatorService } from './calculator.service';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,11 @@ export class HttpRequestService {
     this.logger.log(result)
 
     return this.http.get(`${this.api}/v2/pokemon/${name}`)
+  }
+
+  getPokemonList(): Observable<any[]> {
+    return this.http.get(`${this.api}/v2/pokemon/1?limit=20`).pipe(
+      map((res: any) => res['payload'])
+    );
   }
 }

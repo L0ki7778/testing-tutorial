@@ -5,6 +5,7 @@ import { CalculatorService } from './calculator.service';
 import { LoggerService } from './logger.service';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { POKEMON } from '../../../mock-data/pokemon';
 
 describe('HttpRequestService', () => {
   let service: HttpRequestService,
@@ -13,8 +14,10 @@ describe('HttpRequestService', () => {
     httpTestingController: HttpTestingController
 
   beforeEach(() => {
+
     calculatorService = jasmine.createSpyObj('CalculatorService', ['addition', 'subtraction']);
     loggerService = jasmine.createSpyObj('LoggerService', ['log']);
+
     TestBed.configureTestingModule({
       providers: [
         HttpRequestService,
@@ -24,24 +27,30 @@ describe('HttpRequestService', () => {
         { provide: LoggerService, useValue: loggerService }
       ]
     });
+
     service = TestBed.inject(HttpRequestService);
     httpTestingController = TestBed.inject(HttpTestingController)
+
   });
 
   it('should be created', () => {
+
     expect(service).toBeTruthy();
+
   });
 
   it('should check if the calculator methods are called', () => {
+
     expect(calculatorService.addition).toHaveBeenCalled()
     expect(calculatorService.subtraction).toHaveBeenCalledTimes(1)
+
   })
 
-  it('should fetch data', fakeAsync(() => {
+  it('should fetch a single pokemon', () => {
 
     service.getPokemon('pikachu').subscribe(data => {
       expect(data).toEqual({ pokemon: { name: 'Pikachu' } })
-    })
+    });
 
     const req = httpTestingController.expectOne('https://pokeapi.co/api/v2/pokemon/pikachu');
 
@@ -49,5 +58,27 @@ describe('HttpRequestService', () => {
 
     req.flush({ pokemon: { name: 'Pikachu' } })
 
-  }))
+  })
+
+  it('should fetch a list of pokemon', () => {
+
+    service.getPokemonList().subscribe(list => {
+
+      expect(list.length).toBe(20)
+
+      expect(list['0'].name).toEqual('Bisasam')
+      expect(list['1'].type).toEqual('fire', "got the wrong value");
+      expect(list['1'].type).withContext('got the wrong value').toEqual('fire')
+
+    });
+
+
+    const req = httpTestingController.expectOne(`${service.api}/v2/pokemon/1?limit=20`);
+
+    expect(req.request.method).toEqual('GET');
+
+    req.flush({ payload: Object.values(POKEMON) })
+
+
+  })
 });
