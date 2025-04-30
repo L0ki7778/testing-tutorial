@@ -1,4 +1,4 @@
-export const POKEMON: any = {
+export const POKEMON: PokemonJSON = {
   1: { name: 'Bisasam', type: 'grass' },
   2: { name: 'Glumanda', type: 'fire' },
   3: { name: 'Schiggy', type: 'water' },
@@ -19,4 +19,16 @@ export const POKEMON: any = {
   18: { name: 'Menki', type: 'fighting' },
   19: { name: 'Abra', type: 'psychic' },
   20: { name: 'Machollo', type: 'fighting' }
+};
+
+export interface PokemonJSON {
+  [id: number]: {
+    name: string;
+    type: string;
+  };
+};
+
+export interface Pokemon {
+  name: string;
+  type: string;
 };
