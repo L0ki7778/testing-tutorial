@@ -116,3 +116,6 @@ Kategorie | Was wird getestet? | Beispieltest / Hinweis
 🧹 Lifecycle-Methoden | Reagiert die Komponente auf ngOnInit, ngOnDestroy etc.? | z. B. Subscriptions, Cleanup
 🕵️ SpyOn/Mocks | Methodenaufrufe verfolgt? Funktionen stubben oder durchlassen? | spyOn(component, 'foo').and.callThrough()
 ♻️ Mehrere Runs | Verhalten bei mehreren Interaktionen korrekt? | mehrfach klicken, mehrfach aufrufen
+
+
+//TODO: Presentational und container components erstellen->Übung mit mocked service-observable unter Verwendung von (of(data)) rxjs === synchronous
