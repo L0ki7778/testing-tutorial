@@ -3,9 +3,9 @@ import { fakeAsync, TestBed } from '@angular/core/testing';
 import { HttpRequestService } from './http-request.service';
 import { CalculatorService } from './calculator.service';
 import { LoggerService } from './logger.service';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { POKEMON } from '../../../mock-data/pokemon';
+import { Pokemon, POKEMON, PokemonJSON } from '../../../mock-data/pokemon';
 
 describe('HttpRequestService', () => {
   let service: HttpRequestService,
@@ -80,5 +80,40 @@ describe('HttpRequestService', () => {
     req.flush({ payload: Object.values(POKEMON) })
 
 
+  })
+
+
+  it('should fail to PUT a pokemon', () => {
+    const changes: Partial<Pokemon> = { name: 'Felori' }
+
+    service.savePokemon({ ...POKEMON['1'], ...changes }).subscribe(
+      // () => {
+      //   fail('the object modification should fail')
+      // },
+
+      // (error: HttpErrorResponse) => {
+      //   expect(error.status).toBe(500);
+      // }
+
+      {
+        next: () => {
+          fail('the object modification should fail')
+        },
+
+        error: (error: HttpErrorResponse) => {
+          expect(error.status).toBe(500);
+        }
+      }
+    )
+
+    const req = httpTestingController.expectOne('https://pokeapi.co/api/v2/pokemon/3');
+    expect(req.request.method).toEqual('PUT');
+
+    req.flush('Modification failed', { status: 500, statusText: "Internal Server Error" })
+
+  })
+
+  afterEach(() => {
+    httpTestingController.verify()
   })
 });
