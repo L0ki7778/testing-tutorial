@@ -1,3 +1,5 @@
 <div class="text-3xl font-bold underline">
   @if(pokemon){<h1>{{pokemon.name}}</h1>}
 </div>
+
+<app-playground [greeting]="outputReciever" (guestChange)="recieveOutput($event, text)"></app-playground>
