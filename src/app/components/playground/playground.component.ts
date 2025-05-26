@@ -12,14 +12,14 @@ export class PlaygroundComponent {
   greeting = input.required<string>()
 
   constructor() {
-    // this.changeGuestName("max")
+
   }
 
   changeEmitter = output<string>()
 
   emitNewName(): void {
     if (this.guest.length < 1) return
-    this.changeEmitter.emit(this.guest);
+    this.changeEmitter.emit('changed');
   }
 
   changeGuestName(name: string) {
