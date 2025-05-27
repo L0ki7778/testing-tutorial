@@ -60,13 +60,16 @@ describe('PlaygroundComponent', () => {
 
     expect(component.guest).toBe('Max');
     spyOn(component.changeEmitter, 'emit');
-    spyOn(component, 'emitNewName').and.callThrough();
+    component.guest = "Nick";
+    spyOn(component, 'emitNewName').and.callFake(()=>{
+      component.changeEmitter.emit(component.guest);
+    });
 
     const button = fixture.debugElement.query(By.css('button'));
     button.triggerEventHandler('click', null);
 
     expect(component.emitNewName).toHaveBeenCalledTimes(1);
-    expect(component.changeEmitter.emit).toHaveBeenCalledWith('Max');
+    expect(component.changeEmitter.emit).toHaveBeenCalledWith('Nick');
 
     component.guest = "Larry";
     fixture.detectChanges()

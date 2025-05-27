@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Users } from '../../practice-mock-data';
 import { PresentationComponent } from './presentation.component';
 
 describe('PresentationComponent', () => {
@@ -14,6 +14,7 @@ describe('PresentationComponent', () => {
 
     fixture = TestBed.createComponent(PresentationComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("user", Users[0])
     fixture.detectChanges();
   });
 

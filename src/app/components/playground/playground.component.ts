@@ -17,9 +17,9 @@ export class PlaygroundComponent {
 
   changeEmitter = output<string>()
 
-  emitNewName(): void {
+  emitNewName(text: string): void {
     if (this.guest.length < 1) return
-    this.changeEmitter.emit('changed');
+    this.changeEmitter.emit(text);
   }
 
   changeGuestName(name: string) {

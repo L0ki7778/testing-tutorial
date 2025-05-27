@@ -1,4 +1,4 @@
-export const Users: any = [{
+export const Users: User[] = [{
   "id": 1,
   "name": "Leanne Graham",
   "username": "Bret",
@@ -234,9 +234,9 @@ export interface User {
   name: string;
   username: string;
   email: string;
-  address: string;
+  address: string| object;
   phone: number | string;
   website: string;
-  company: string;
+  company: string| object;
 
 }
